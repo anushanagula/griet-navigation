@@ -218,8 +218,22 @@ public class ExploreActivity extends AppCompatActivity {
         btnText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addVoiceCommands(src.getName(),desti.getName());
-                textToSpeech.speak(voiceAssistant.toString(),TextToSpeech.QUEUE_FLUSH,null);
+                String s = src.getName().charAt(0)!='E' ? ("21"+src.getName().substring(2)) : src.getName();
+                String d = desti.getName().charAt(0)!='E' ? ("21"+desti.getName().substring(2)) : desti.getName();
+                if(src.getLevel() == desti.getLevel()) {
+                    addVoiceCommands(s, d);
+                    textToSpeech.speak(voiceAssistant.toString(), TextToSpeech.QUEUE_FLUSH, null);
+                }
+                else {
+                    String mp[] = {"Ground","First","Second","Third"};
+                    String voice = "";
+                    addVoiceCommands(s,"Stairs1");
+                    voice += voiceAssistant.toString();
+                    voice += "Get down in"+mp[desti.getLevel()-2]+"Floor";
+                    addVoiceCommands("Stairs1",d);
+                    voice+= voiceAssistant.toString();
+                    textToSpeech.speak(voice, TextToSpeech.QUEUE_FLUSH, null);
+               }
             }
         });
 
@@ -377,7 +391,7 @@ public class ExploreActivity extends AppCompatActivity {
         }
         {
             String []places = {"2201", "2202", "2203", "2204", "2205", "2206", "2207", "2208", "2209", "2210",};
-            Location node0 = new Location("Balcony", new ArrayList<String>(Arrays.asList("Entrance")), new ArrayList<Integer>(Arrays.asList(PlacePosition.left)), R.drawable.second0, 3, false, 180f, null, null, null, null, null, null, null, null,null);
+            Location node0 = new Location("Balcony", new ArrayList<String>(Arrays.asList("Balcony")), new ArrayList<Integer>(Arrays.asList(PlacePosition.left)), R.drawable.second0, 3, false, 180f, null, null, null, null, null, null, null, null,null);
             Location node1 = new Location("2209", new ArrayList<String>(Arrays.asList(places[8], "StaffRoom",places[9])), new ArrayList<Integer>(Arrays.asList(PlacePosition.bottom, PlacePosition.left,PlacePosition.top)),R.drawable.second1 , 3, false, 0f, null, null, null, null, null,null,null,null,null);
             Location node2 = new Location("2206", new ArrayList<String>(Arrays.asList(places[5], "StaffRoom",places[6])), new ArrayList<Integer>(Arrays.asList(PlacePosition.top, PlacePosition.bottom, PlacePosition.right)),R.drawable.second2, 3, false, 0f, null, null, null, null,null,null,null,null,null);
             Location node3 = new Location("2208", new ArrayList<String>(Arrays.asList(places[7])), new ArrayList<Integer>(Arrays.asList(PlacePosition.bottom)), R.drawable.second3, 3, false, 45f, null, null, null, null, null,null,null,null,null);
@@ -668,11 +682,120 @@ public class ExploreActivity extends AppCompatActivity {
             case "Entrance":
                 switch (dest) {
                     case "2101":
+                        voiceAssistant = "Turn left and go straight for 1 meters and your destination is on left";
                     case "2102":
-                        voiceAssistant = "Turn left and go straight for 5 meters";
+                        voiceAssistant = "Turn left and go straight for 1 meters and your destination is on left";
                         break;
                     case "2103":
-                        voiceAssistant = "Turn left and go straight for 5 meters and then turn slightly turn left walk 2 meters";
+                        voiceAssistant = "Turn left and go straight for 2 meters and then turn slightly turn left";
+                        break;
+                    case "2104":
+                        voiceAssistant = "Turn left and go straight for 1 meters and your destination is on right";
+                        break;
+                    case "2105":
+                        voiceAssistant = "Turn left and go straight for 1 meters and your destination is on right";
+                        break;
+                    case "2106":
+                        voiceAssistant = "Turn right and go straight for 1 meters and your destination is on left";
+                        break;
+                    case "2107":
+                        voiceAssistant = "Turn right and go straight for 1 meters and your destination is on left";
+                        break;
+                    case "2108":
+                        voiceAssistant = "Turn right and go straight for 1 meters and then slighty turn to left";
+                        break;
+                    case "2109":
+                        voiceAssistant = "Turn right and go straight for 1 meters and your destination is on right";
+                        break;
+                    case "2110":
+                        voiceAssistant = "Turn right and go straight for 1 meters and your destination is on right";
+                        break;
+                    case "Entrance":
+                        voiceAssistant = "You are at entrance";
+                        break;
+                    case "Stairs1":
+                        voiceAssistant = "Go straight to use lift.";
+                        break;
+                    default:
+                        voiceAssistant = "";
+                        break;
+                }
+                break;
+            case "2101":
+            case "2102":
+                switch (dest) {
+                    case "2102":
+                        voiceAssistant = "You are at your destination";
+                        break;
+                    case "2103":
+                        voiceAssistant = "Go straight for 1 meter and turn left";
+                        break;
+                    case "2104":
+                        voiceAssistant = "Go straight for 2 meters and turn left";
+                        break;
+                    case "2105":
+                        voiceAssistant = "Go straight for 2 meters and turn left and go straight for 1 meter";
+                        break;
+                    case "2106":
+                        voiceAssistant = "Turn left and go straight for 3 meters and turn right and go straight for 3 meters";
+                        break;
+                    case "2107":
+                        voiceAssistant = "Turn left and go straight for 3 meters and turn right and go straight for 4 meters";
+                        break;
+                    case "2108":
+                        voiceAssistant = "Turn left and go straight for 3 meters";
+                        break;
+                    case "2109":
+                        voiceAssistant = "Turn left and go straight for 2 meters";
+                        break;
+                    case "2110":
+                        voiceAssistant = "Turn left and go straight for 1 meter";
+                        break;
+                    case "Entrance":
+                        voiceAssistant = "Turn left and go straight for 1 meter";
+                        break;
+                    case "Stairs1":
+                        voiceAssistant = "Go straight and turn right to use stairs.";
+                        break;
+                   default:
+                        voiceAssistant = "Go straight";
+                        break;
+                }
+                break;
+            case "2103":
+                switch (dest) {
+                    case "2101":
+                        voiceAssistant = "Turn right and go straight for 1 meter and turn right";
+                        break;
+                    case "2102":
+                        voiceAssistant = "Turn right and go straight for 1 meter";
+                        break;
+                    case "2104":
+                        voiceAssistant = "Turn right and go straight for 1 meter and turn left and go straight for 1 meter";
+                        break;
+                    case "2105":
+                        voiceAssistant = "Turn right and go straight for 1 meter and turn left and go straight for 2 meters";
+                        break;
+                    case "2106":
+                        voiceAssistant = "Turn right and go straight for 3 meters and turn right and go straight for 3 meters";
+                        break;
+                    case "2107":
+                        voiceAssistant = "Turn right and go straight for 3 meters and turn right and go straight for 4 meters";
+                        break;
+                    case "2108":
+                        voiceAssistant = "Turn right and go straight for 3 meters";
+                        break;
+                    case "2109":
+                        voiceAssistant = "Turn right and go straight for 2 meters";
+                        break;
+                    case "2110":
+                        voiceAssistant = "Turn right and go straight for 1 meter";
+                        break;
+                    case "Entrance":
+                        voiceAssistant = "Turn right and go straight for 2 meters";
+                        break;
+                    case "Stairs1":
+                        voiceAssistant = "Go straight to use lift.";
                         break;
                     default:
                         voiceAssistant = "Go straight";
@@ -680,6 +803,7 @@ public class ExploreActivity extends AppCompatActivity {
                 }
                 break;
             case "2104":
+            case "2105":
                 switch (dest){
                     case "2105":
                         voiceAssistant = "Turn left and go straight for 1 meters";
@@ -708,36 +832,8 @@ public class ExploreActivity extends AppCompatActivity {
                     case "2101":
                         voiceAssistant="go straight for 2 meters and then turn slightly turn left walk 3 meters";
                         break;
-                    default:
-                        voiceAssistant = "Go straight";
-                        break;
-                }
-                break;
-            case "2105":
-                switch (dest){
-                    case "2106":
-                        voiceAssistant = "Turn left and go straight for 3 meters";
-                        break;
-                    case "2107":
-                        voiceAssistant = "Turn left and go straight for 4 meters";
-                        break;
-                    case "2108":
-                        voiceAssistant = "Turn left and go straight for 5 meters and turn right";
-                        break;
-                    case "2109":
-                        voiceAssistant = "Turn left and go straight for 5 meters and turn right and go straight 2 meters";
-                        break;
-                    case "2110":
-                        voiceAssistant = "Turn left and go straight for 5 meters and turn right and go straight 3 meters";
-                        break;
-                    case "2103":
-                        voiceAssistant = "go straight for 2 meters";
-                        break;
-                    case "2102":
-                        voiceAssistant="go straight for 2 meters and then turn slightly turn left walk 2 meters";
-                        break;
-                    case "2101":
-                        voiceAssistant="go straight for 1 meters and then turn slightly turn left walk 2 meters";
+                    case "Stairs1":
+                        voiceAssistant = "Go straight to use lift.";
                         break;
                     default:
                         voiceAssistant = "Go straight";
@@ -745,6 +841,7 @@ public class ExploreActivity extends AppCompatActivity {
                 }
                 break;
             case "2106":
+            case "2107":
                 switch (dest){
                     case "2107":
                         voiceAssistant = "Turn left and go straight for 1 meters";
@@ -767,33 +864,120 @@ public class ExploreActivity extends AppCompatActivity {
                     case "2101":
                         voiceAssistant="go straight for 1 meters and then turn slightly turn left walk 2 meters";
                         break;
+                    case "Stairs1":
+                        voiceAssistant = "Go straight to use stairs or lift.";
+                        break;
                     default:
                         voiceAssistant = "Go straight";
                         break;
                 }
                 break;
-            case "2107":
-                switch (dest){
-                    case "2106":
-                        voiceAssistant = "Turn right and go straight for 1 meters";
-                        break;
-                    case "2108":
-                        voiceAssistant = "Turn left and go straight for 1 meters ";
-                        break;
-                    case "2109":
-                        voiceAssistant = "go straight 1 meters ";
-                        break;
-                    case "2110":
-                        voiceAssistant = "Turn left and go straight for 2 meters and turn right and go straight 3 meters";
-                        break;
-                    case "2103":
-                        voiceAssistant = " turn right and go straight for 4 meters";
+            case "2108":
+                switch (dest) {
+                    case "2101":
+                        voiceAssistant = "Turn left and go straight for 3 meters";
                         break;
                     case "2102":
-                        voiceAssistant="go straight for 2 meters and then turn slightly turn left walk 2 meters";
+                        voiceAssistant = "Turn left and go straight for 3 meters";
                         break;
+                    case "2103":
+                        voiceAssistant = "Turn left and go straight for 3 meters";
+                        break;
+                    case "2104":
+                        voiceAssistant = "Turn left and go straight for 3 meters";
+                        break;
+                    case "2105":
+                        voiceAssistant = "Turn left and go straight for 3 meters";
+                        break;
+                    case "2106":
+                        voiceAssistant = "Turn left and go straight for 3 meters and turn left and go straight for 3 meters";
+                        break;
+                    case "2107":
+                        voiceAssistant = "Turn left and go straight for 4 meters";
+                        break;
+                    case "2109":
+                        voiceAssistant = "Turn right and go straight for 1 meter";
+                        break;
+                    case "2110":
+                        voiceAssistant = "Turn right and go straight for 2 meters";
+                        break;
+                    case "Entrance":
+                        voiceAssistant = "Turn right and go straight for 3 meters";
+                        break;
+                    case "Stairs1":
+                        voiceAssistant = "Turn Right and move for 2 meters and then turn left Go straight to use stairs or lift.";
+                        break;
+                    default:
+                        voiceAssistant = "Go straight";
+                        break;
+                }
+                break;
+            case "2109":
+                switch (dest) {
                     case "2101":
-                        voiceAssistant="go straight for 1 meters and then turn slightly turn left walk 2 meters";
+                        voiceAssistant = "Turn left and go straight for 2 meters";
+                        break;
+                    case "2102":
+                        voiceAssistant = "Turn left and go straight for 2 meters";
+                        break;
+                    case "2103":
+                        voiceAssistant = "Turn left and go straight for 2 meters";
+                        break;
+                    case "2104":
+                        voiceAssistant = "Turn left and go straight for 2 meters";
+                        break;
+                    case "2105":
+                        voiceAssistant = "Turn left and go straight for 2 meters";
+                        break;
+                    case "2106":
+                        voiceAssistant = "Turn left and go straight for 2 meters and turn left and go straight for 3 meters";
+                        break;
+                    case "2107":
+                        voiceAssistant = "Turn left and go straight for 3 meters and turn left and go straight for 4 meters";
+                        break;
+                    case "2108":
+                        voiceAssistant = "Turn left and go straight for 1 meter";
+                        break;
+                    case "2110":
+                        voiceAssistant = "Turn right and go straight for 1 meter";
+                        break;
+                    case "Entrance":
+                        voiceAssistant = "Turn right and go straight for 2 meters";
+                        break;
+                    case "Stairs1":
+                        voiceAssistant = "Go straight for 5 meters and turn left and move 2 meters forward to use stairs or lift.";
+                        break;
+                    default:
+                        voiceAssistant = "Go straight";
+                        break;
+                }
+                break;
+            case "Stairs1":
+                switch (dest) {
+                    case "2101":
+                    case "2102":
+                        voiceAssistant = "Turn right and go straight for 2 meters, then turn left and move for 5 meters";
+                        break;
+                    case "2103":
+                        voiceAssistant = "Turn right and go straight for 2 meters, then turn left and move for 3 meters and then turn right";
+                        break;
+                    case "2104":
+                    case "2105":
+                        voiceAssistant = "Turn right and go straight for 2 meters";
+                        break;
+                    case "2106":
+                    case "2107":
+                        voiceAssistant = "Turn left and go straight for 2 meters";
+                        break;
+                    case "2108":
+                        voiceAssistant = "Turn left and go straight for 2 meters, then turn right and move for 3 meters and then turn left";
+                        break;
+                    case "2109":
+                    case "2110":
+                        voiceAssistant = "Turn left and go straight for 2 meters, then turn right and move for 5 meters";
+                        break;
+                    case "Entrance":
+                        voiceAssistant = "go straight for 5 meters";
                         break;
                     default:
                         voiceAssistant = "Go straight";
